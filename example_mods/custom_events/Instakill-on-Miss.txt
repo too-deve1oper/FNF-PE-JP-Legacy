@@ -1,0 +1,2 @@
+If you put 1 in value1, it becomes valid.
+If value1 is set to 0, it is disabled.

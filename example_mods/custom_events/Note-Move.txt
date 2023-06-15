@@ -1,0 +1,10 @@
+Value 1
+[0]  Reset  [1]  Middle scroll  [2]  Note position swap
+[3]  Note fusion and opposing note translucency
+[4]  Taiko style  [5]  Note location swap
+When Value1 = 5  Value 2
+[1]  All note positions reversed
+[2]  Left and right note position reversal
+[3]  Inverted top and bottom note positions
+[4]  Chaos
+

@@ -1,0 +1,8 @@
+It works by putting the corresponding
+number in value1.
+However, the only HUD types that will
+work are score text and health bar.
+
+[0] Disabled
+[1] Translucent
+[2] Transparent

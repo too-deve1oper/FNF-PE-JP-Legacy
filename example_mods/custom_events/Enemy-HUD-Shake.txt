@@ -1,0 +1,2 @@
+To activate the event, set it at the beginning of the song. 
+It will be enabled for the entire song.
