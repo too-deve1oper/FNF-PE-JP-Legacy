@@ -24,7 +24,7 @@ using StringTools;
 
 class CreditsState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.1.0';
+	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
 
 	var curSelected:Int = -1;
 
@@ -90,7 +90,7 @@ class CreditsState extends MusicBeatState
 			[''],
 			['JPsych Engine Team'],
             ['Warabimochi',         'warabi',           'JPsych Engine制作者',                                           'https://twitter.com/warabi_mt17',     'F4A460'],
-            ['KuroKamiZERO',        'KRKMZERO',         '制作協力者',                                                    'https://kurokamizero.jimdofree.com/',  '555555'],
+            ['KuroGamiZERO',        'KRGMZERO',         '制作協力者',                                                    'https://kurokamizero.jimdofree.com/',  '555555'],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
