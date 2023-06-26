@@ -30,7 +30,7 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.1.0';
+	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
 
 	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;

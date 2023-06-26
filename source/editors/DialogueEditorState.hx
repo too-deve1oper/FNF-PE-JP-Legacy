@@ -37,7 +37,7 @@ using StringTools;
 
 class DialogueEditorState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.1.0';
+	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
 
 	var character:DialogueCharacter;
 	var box:FlxSprite;
