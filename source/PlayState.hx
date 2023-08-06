@@ -81,11 +81,12 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
+	public static var psychEngineJPVersion:String = '0.6.3-3.3.0';
 
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
+	#if StandardUI
 	public static var ratingStuff:Array<Dynamic> = [
 		['Blueballed', 0.2], //From 0% to 19%
 		['Shit!', 0.4], //From 20% to 39%
@@ -98,6 +99,7 @@ class PlayState extends MusicBeatState
 		['Sick!!', 1], //From 90% to 99%
 		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
+	#end
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -2260,9 +2262,16 @@ class PlayState extends MusicBeatState
 	public function updateScore(miss:Bool = false)
 	{
 		scoreTxt.text = 'スコア: ' + songScore
-		+ ' | ミス: ' + songMisses
+		+ ' | ミス数: ' + songMisses
+		+ ' | 精度: ' + (' ${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]');
+
+		#if StandardUI
+		scoreText.text = 'スコア: ' + songScore
+		+ ' | ミス数: ' + songMisses
 		+ ' | 評価: ' + ratingName
-		+ (ratingName != '0%' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) | ランク: $ratingFC' : '');
+		+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '');
+		#end
+
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
@@ -5187,7 +5196,7 @@ class PlayState extends MusicBeatState
 
 		var ret:Dynamic = callOnLuas('onRecalculateRating', [], false);
 		if(ret != FunkinLua.Function_Stop)
-		{
+			{
 			if(totalPlayed < 1) //Prevent divide by 0
 				ratingName = '?';
 			else
@@ -5196,6 +5205,7 @@ class PlayState extends MusicBeatState
 				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
+				#if StandardUI
 				// Rating Name
 				if(ratingPercent >= 1)
 				{
@@ -5212,6 +5222,7 @@ class PlayState extends MusicBeatState
 						}
 					}
 				}
+				#end
 			}
 
 			// Rating FC

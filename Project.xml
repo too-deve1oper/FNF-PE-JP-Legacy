@@ -65,6 +65,9 @@
 	<!-- <define name="PRELOAD_ALL" /> -->
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
+
+	<!-- PSYCH ENGINE-JP ORIGINAL CUSTOMIZATION -->
+	<define name="UI_DEFAULT" unless="StandardUI"/> <!-- ADDED WHEN: v0.6.3-3.3.0 -->
 	
 	<library name="videos"        preload="true" />
 	<section if="PRELOAD_ALL">
@@ -110,7 +113,7 @@
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
-	<assets path='art/readme.txt' rename='do NOT readme.txt' />
+	<assets path='art/readme.txt' rename="Readme FROM FNF'.txt" />
 	<!-- <template path='mods' /> -->
 	
 	<!-- assets path="CHANGELOG.md" rename='changelog.txt' -->
