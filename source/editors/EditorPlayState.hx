@@ -127,7 +127,7 @@ class EditorPlayState extends MusicBeatState
 		noteTypeMap.clear();
 		noteTypeMap = null;
 
-		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "ヒット: 0 | ミス: 0", 20);
+		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "ヒット: 0 | ミス数: 0", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
@@ -500,7 +500,7 @@ class EditorPlayState extends MusicBeatState
 		}
 
 		keyShit();
-		scoreTxt.text = 'ヒット: ' + songHits + ' | ミス: ' + songMisses;
+		scoreTxt.text = 'ヒット: ' + songHits + ' | ミス数: ' + songMisses;
 		sectionTxt.text = 'セクション: ' + curSection;
 		beatTxt.text = 'ビート: ' + curBeat;
 		stepTxt.text = 'ステップ: ' + curStep;

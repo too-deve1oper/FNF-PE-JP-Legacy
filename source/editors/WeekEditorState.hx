@@ -38,8 +38,6 @@ using StringTools;
 
 class WeekEditorState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	var txtWeekTitle:FlxText;
 	var bgSprite:FlxSprite;
 	var lock:FlxSprite;
@@ -59,7 +57,7 @@ class WeekEditorState extends MusicBeatState
 
 	override function create() {
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
-		txtWeekTitle.setFormat("07ロゴたいぷゴシック7", 32, FlxColor.WHITE, RIGHT);
+		txtWeekTitle.setFormat(Paths.font('VCR OSD Mono.ttf'), 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
 		
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
@@ -108,7 +106,7 @@ class WeekEditorState extends MusicBeatState
 
 		txtTracklist = new FlxText(FlxG.width * 0.05, tracksSprite.y + 60, 0, "", 32);
 		txtTracklist.alignment = CENTER;
-		txtTracklist.font = Paths.font("vcr.ttf");
+		txtTracklist.font = Paths.font("VCR OSD Mono.ttf");
 		txtTracklist.color = 0xFFe55777;
 		add(txtTracklist);
 		add(txtWeekTitle);
@@ -139,7 +137,7 @@ class WeekEditorState extends MusicBeatState
 		UI_box.selected_tab_id = 'Week';
 		add(UI_box);
 
-		var loadWeekButton:FlxButton = new FlxButton(0, 650, "Weekロード", function() {
+		var loadWeekButton:FlxButton = new FlxButton(0, 650, "Weekを読み込み", function() {
 			loadWeek();
 		});
 		loadWeekButton.screenCenter(X);
@@ -153,7 +151,7 @@ class WeekEditorState extends MusicBeatState
 		freeplayButton.screenCenter(X);
 		add(freeplayButton);
 	
-		var saveWeekButton:FlxButton = new FlxButton(0, 650, "Weekセーブ", function() {
+		var saveWeekButton:FlxButton = new FlxButton(0, 650, "Weekを保存", function() {
 			saveWeek(weekFile);
 		});
 		saveWeekButton.screenCenter(X);
@@ -203,18 +201,18 @@ class WeekEditorState extends MusicBeatState
 		blockPressWhileTypingOn.push(weekFileInputText);
 		reloadWeekThing();
 
-		hideCheckbox = new FlxUICheckBox(10, weekFileInputText.y + 40, null, null, "ストーリーモードでは非表示にしますか?", 100);
+		hideCheckbox = new FlxUICheckBox(10, weekFileInputText.y + 40, null, null, "Stoty Modeで表示しない", 100);
 		hideCheckbox.callback = function()
 		{
 			weekFile.hideStoryMode = hideCheckbox.checked;
 		};
 
 		tab_group.add(new FlxText(songsInputText.x, songsInputText.y - 18, 0, '曲名:'));
-		tab_group.add(new FlxText(opponentInputText.x, opponentInputText.y - 18, 0, 'キャラクター:'));
-		tab_group.add(new FlxText(backgroundInputText.x, backgroundInputText.y - 18, 0, '背景Asset名:'));
-		tab_group.add(new FlxText(displayNameInputText.x, displayNameInputText.y - 18, 0, '表示名(リセット時に表示):'));
-		tab_group.add(new FlxText(weekNameInputText.x, weekNameInputText.y - 18, 0, 'Week名(リセット時に表示):'));
-		tab_group.add(new FlxText(weekFileInputText.x, weekFileInputText.y - 18, 0, 'Week画像のファイル名:'));
+		tab_group.add(new FlxText(opponentInputText.x, opponentInputText.y - 18, 0, 'Weekキャラ:'));
+		tab_group.add(new FlxText(backgroundInputText.x, backgroundInputText.y - 18, 0, '背景画像:'));
+		tab_group.add(new FlxText(displayNameInputText.x, displayNameInputText.y - 18, 0, 'Weekについて:'));
+		tab_group.add(new FlxText(weekNameInputText.x, weekNameInputText.y - 18, 0, 'Weekの名前(リセット時に表示):'));
+		tab_group.add(new FlxText(weekFileInputText.x, weekFileInputText.y - 18, 0, 'Week画像ファイル名:'));
 
 		tab_group.add(songsInputText);
 		tab_group.add(opponentInputText);
@@ -238,7 +236,7 @@ class WeekEditorState extends MusicBeatState
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Other";
 
-		lockedCheckbox = new FlxUICheckBox(10, 30, null, null, "最初はWeekロックする", 100);
+		lockedCheckbox = new FlxUICheckBox(10, 30, null, null, "ロックする", 100);
 		lockedCheckbox.callback = function()
 		{
 			weekFile.startUnlocked = !lockedCheckbox.checked;
@@ -246,7 +244,7 @@ class WeekEditorState extends MusicBeatState
 			hiddenUntilUnlockCheckbox.alpha = 0.4 + 0.6 * (lockedCheckbox.checked ? 1 : 0);
 		};
 
-		hiddenUntilUnlockCheckbox = new FlxUICheckBox(10, lockedCheckbox.y + 25, null, null, "ロック解除するまで非表示", 110);
+		hiddenUntilUnlockCheckbox = new FlxUICheckBox(10, lockedCheckbox.y + 25, null, null, "ロック解除まで非表示", 110);
 		hiddenUntilUnlockCheckbox.callback = function()
 		{
 			weekFile.hiddenUntilUnlocked = hiddenUntilUnlockCheckbox.checked;
@@ -259,9 +257,9 @@ class WeekEditorState extends MusicBeatState
 		difficultiesInputText = new FlxUIInputText(10, weekBeforeInputText.y + 60, 200, '', 8);
 		blockPressWhileTypingOn.push(difficultiesInputText);
 		
-		tab_group.add(new FlxText(weekBeforeInputText.x, weekBeforeInputText.y - 28, 0, 'ロック解除のためのWeek:'));
+		tab_group.add(new FlxText(weekBeforeInputText.x, weekBeforeInputText.y - 28, 0, 'Weekファイル名を指定して\nロック解除に必要なWeekを設定:'));
 		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y - 20, 0, '難易度:'));
-		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'デフォルト難易度は"Easy, Normal, Hard"'));
+		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'デフォルトの難易度は"Easy, Normal, Hard"\n引用符はなしで。'));
 		tab_group.add(weekBeforeInputText);
 		tab_group.add(difficultiesInputText);
 		tab_group.add(hiddenUntilUnlockCheckbox);
@@ -372,7 +370,7 @@ class WeekEditorState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Weekエディター | Week Editor", "編集中 | Editting: " + weekFileName);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Week Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Week Editor";
 	}
 	
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
@@ -637,7 +635,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
 	function addEditorBox() {
 		var tabs = [
-			{name: 'Freeplay', label: 'Freeplay'},
+			{name: 'Freeplay', label: 'FREEPLAY'},
 		];
 		UI_box = new FlxUITabMenu(null, tabs, true);
 		UI_box.resize(250, 200);
@@ -653,21 +651,21 @@ class WeekEditorFreeplayState extends MusicBeatState
 		blackBlack.alpha = 0.6;
 		add(blackBlack);
 
-		var loadWeekButton:FlxButton = new FlxButton(0, 685, "Weekロード", function() {
+		var loadWeekButton:FlxButton = new FlxButton(0, 685, "Weekを読み込み", function() {
 			WeekEditorState.loadWeek();
 		});
 		loadWeekButton.screenCenter(X);
 		loadWeekButton.x -= 120;
 		add(loadWeekButton);
 		
-		var storyModeButton:FlxButton = new FlxButton(0, 685, "ストーリーモード", function() {
+		var storyModeButton:FlxButton = new FlxButton(0, 685, "Story Mode", function() {
 			MusicBeatState.switchState(new WeekEditorState(weekFile));
 			
 		});
 		storyModeButton.screenCenter(X);
 		add(storyModeButton);
 	
-		var saveWeekButton:FlxButton = new FlxButton(0, 685, "Weekセーブ", function() {
+		var saveWeekButton:FlxButton = new FlxButton(0, 685, "Weekを保存", function() {
 			WeekEditorState.saveWeek(weekFile);
 		});
 		saveWeekButton.screenCenter(X);
@@ -692,16 +690,16 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var iconInputText:FlxUIInputText;
 	function addFreeplayUI() {
 		var tab_group = new FlxUI(null, UI_box);
-		tab_group.name = "FREEPLAY";
+		tab_group.name = "Freeplay";
 
 		bgColorStepperR = new FlxUINumericStepper(10, 40, 20, 255, 0, 255, 0);
 		bgColorStepperG = new FlxUINumericStepper(80, 40, 20, 255, 0, 255, 0);
 		bgColorStepperB = new FlxUINumericStepper(150, 40, 20, 255, 0, 255, 0);
 
-		var copyColor:FlxButton = new FlxButton(10, bgColorStepperR.y + 25, "色をコピー", function() {
+		var copyColor:FlxButton = new FlxButton(10, bgColorStepperR.y + 25, "背景色をコピー", function() {
 			Clipboard.text = bg.color.red + ',' + bg.color.green + ',' + bg.color.blue;
 		});
-		var pasteColor:FlxButton = new FlxButton(140, copyColor.y, "色を貼り付け", function() {
+		var pasteColor:FlxButton = new FlxButton(140, copyColor.y, "背景色を貼り付け", function() {
 			if(Clipboard.text != null) {
 				var leColor:Array<Int> = [];
 				var splitted:Array<String> = Clipboard.text.trim().split(',');
@@ -725,15 +723,15 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
 
-		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, iconInputText.y + 30, null, null, "FREEPLAYから非表示にしますか?", 100);
+		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, iconInputText.y + 30, null, null, "FREEPLAYからこのWeekの曲を非表示", 100);
 		hideFreeplayCheckbox.checked = weekFile.hideFreeplay;
 		hideFreeplayCheckbox.callback = function()
 		{
 			weekFile.hideFreeplay = hideFreeplayCheckbox.checked;
 		};
 		
-		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, '背景色(R/G/B):'));
-		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'アイコン:'));
+		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, '背景色 R/G/B:'));
+		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'アイコン名:'));
 		tab_group.add(bgColorStepperR);
 		tab_group.add(bgColorStepperG);
 		tab_group.add(bgColorStepperB);

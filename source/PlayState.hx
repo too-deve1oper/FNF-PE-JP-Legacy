@@ -81,8 +81,6 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.3.0';
-
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -333,6 +331,9 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - " + SONG.song;
+
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -1021,7 +1022,7 @@ class PlayState extends MusicBeatState
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.setFormat(Paths.font("VCR OSD Mono.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
@@ -1146,7 +1147,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
-		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		botplayTxt.setFormat(Paths.font("VCR OSD Mono.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
@@ -1321,7 +1322,6 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 
 		if(!ClientPrefs.controllerMode)
 		{
@@ -2263,14 +2263,7 @@ class PlayState extends MusicBeatState
 	{
 		scoreTxt.text = 'スコア: ' + songScore
 		+ ' | ミス数: ' + songMisses
-		+ ' | 精度: ' + (' ${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]');
-
-		#if StandardUI
-		scoreText.text = 'スコア: ' + songScore
-		+ ' | ミス数: ' + songMisses
-		+ ' | 評価: ' + ratingName
-		+ (ratingName != '?' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '');
-		#end
+		+ ' | 精度: ' + ' ${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]';
 
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -2366,7 +2359,6 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
 	}
@@ -2801,8 +2793,6 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
-
 		super.onFocusLost();
 	}
 
@@ -3309,7 +3299,6 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 	}
 
 	function openChartEditor()
@@ -3323,7 +3312,7 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("チャートエディター | Chart Editor", null, null, true);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Chart Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Chart Editor";
 	}
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
@@ -3356,7 +3345,6 @@ class PlayState extends MusicBeatState
 				// Game Over doesn't get his own variable because it's only used here
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
-				Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "] - GAMEOVER";
 				isDead = true;
 				return true;
 			}

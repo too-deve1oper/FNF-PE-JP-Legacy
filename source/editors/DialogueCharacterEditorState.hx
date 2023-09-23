@@ -39,7 +39,6 @@ using StringTools;
 
 class DialogueCharacterEditorState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
 
 	var box:FlxSprite;
 	var daText:TypedAlphabet = null;
@@ -207,7 +206,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		var tab_group = new FlxUI(null, UI_typebox);
 		tab_group.name = "Character Type";
 
-		leftCheckbox = new FlxUICheckBox(10, 20, null, null, "左", 100);
+		leftCheckbox = new FlxUICheckBox(10, 20, null, null, "左側", 100);
 		leftCheckbox.callback = function()
 		{
 			character.jsonFile.dialogue_pos = 'left';
@@ -221,7 +220,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 			updateCharTypeBox();
 		};
 
-		rightCheckbox = new FlxUICheckBox(centerCheckbox.x, centerCheckbox.y + 40, null, null, "右", 100);
+		rightCheckbox = new FlxUICheckBox(centerCheckbox.x, centerCheckbox.y + 40, null, null, "右側", 100);
 		rightCheckbox.callback = function()
 		{
 			character.jsonFile.dialogue_pos = 'right';
@@ -252,8 +251,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 
 				curSelectedAnim = anim;
 				var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
-				offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
-				offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
+				offsetLoopText.text = 'ループ: ' + animShit.loop_offsets;
+				offsetIdleText.text = 'アイドル: ' + animShit.idle_offsets;
 
 				animationInputText.text = animShit.anim;
 				loopInputText.text = animShit.loop_name;
@@ -334,9 +333,9 @@ class DialogueCharacterEditorState extends MusicBeatState
 		});
 		
 		tab_group.add(new FlxText(animationDropDown.x, animationDropDown.y - 18, 0, 'アニメーション:'));
-		tab_group.add(new FlxText(animationInputText.x, animationInputText.y - 18, 0, 'アニメーションの名前:'));
-		tab_group.add(new FlxText(loopInputText.x, loopInputText.y - 18, 0, 'ループ名(.xmlファイル):'));
-		tab_group.add(new FlxText(idleInputText.x, idleInputText.y - 18, 0, 'Idle/Finishedの名前(.xmlファイル):'));
+		tab_group.add(new FlxText(animationInputText.x, animationInputText.y - 18, 0, 'アニメーション名:'));
+		tab_group.add(new FlxText(loopInputText.x, loopInputText.y - 18, 0, '.XML上での名前:'));
+		tab_group.add(new FlxText(idleInputText.x, idleInputText.y - 18, 0, '.XML上での アイドル/終了 名:'));
 		tab_group.add(animationInputText);
 		tab_group.add(loopInputText);
 		tab_group.add(idleInputText);
@@ -372,7 +371,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		yStepper = new FlxUINumericStepper(imageInputText.x + 80, xStepper.y, 10, character.jsonFile.position[1], -2000, 2000, 0);
 		scaleStepper = new FlxUINumericStepper(imageInputText.x, xStepper.y + 50, 0.05, character.jsonFile.scale, 0.1, 10, 2);
 
-		var noAntialiasingCheckbox:FlxUICheckBox = new FlxUICheckBox(scaleStepper.x + 80, scaleStepper.y, null, null, "No Antialiasing(縁をキレイにしない)", 100);
+		var noAntialiasingCheckbox:FlxUICheckBox = new FlxUICheckBox(scaleStepper.x + 80, scaleStepper.y, null, null, "縁をきれいにしない", 100);
 		noAntialiasingCheckbox.checked = (character.jsonFile.no_antialiasing == true);
 		noAntialiasingCheckbox.callback = function()
 		{
@@ -380,8 +379,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 			character.antialiasing = !character.jsonFile.no_antialiasing;
 		};
 		
-		tab_group.add(new FlxText(10, imageInputText.y - 18, 0, 'イメージファイル名:'));
-		tab_group.add(new FlxText(10, xStepper.y - 18, 0, 'ポジション(X,Y):'));
+		tab_group.add(new FlxText(10, imageInputText.y - 18, 0, 'スプライトファイル名:'));
+		tab_group.add(new FlxText(10, xStepper.y - 18, 0, '位置:'));
 		tab_group.add(new FlxText(10, scaleStepper.y - 18, 0, '大きさ:'));
 		tab_group.add(imageInputText);
 		tab_group.add(xStepper);
@@ -389,14 +388,14 @@ class DialogueCharacterEditorState extends MusicBeatState
 		tab_group.add(scaleStepper);
 		tab_group.add(noAntialiasingCheckbox);
 
-		var reloadImageButton:FlxButton = new FlxButton(10, scaleStepper.y + 60, "再読み込み", function() {
+		var reloadImageButton:FlxButton = new FlxButton(10, scaleStepper.y + 60, "スプライトを再読み込み", function() {
 			reloadCharacter();
 		});
 		
-		var loadButton:FlxButton = new FlxButton(reloadImageButton.x + 100, reloadImageButton.y, "キャラクターロード", function() {
+		var loadButton:FlxButton = new FlxButton(reloadImageButton.x + 100, reloadImageButton.y, "キャラを読み込み", function() {
 			loadCharacter();
 		});
-		var saveButton:FlxButton = new FlxButton(loadButton.x, reloadImageButton.y - 25, "キャラクターセーブ", function() {
+		var saveButton:FlxButton = new FlxButton(loadButton.x, reloadImageButton.y - 25, "キャラを保存", function() {
 			saveCharacter();
 		});
 		tab_group.add(reloadImageButton);
@@ -422,7 +421,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		updateTextBox();
 	}
 
-	private static var DEFAULT_TEXT:String = 'Lorem ipsum dolor sit amet';
+	private static var DEFAULT_TEXT:String = 'wtf wtf wtf legacy';
 
 	function reloadCharacter() {
 		var charsArray:Array<DialogueCharacter> = [character, ghostLoop, ghostIdle];
@@ -452,18 +451,18 @@ class DialogueCharacterEditorState extends MusicBeatState
 			var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
 			ghostLoop.playAnim(animShit.anim);
 			ghostIdle.playAnim(animShit.anim, true);
-			offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
-			offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
+			offsetLoopText.text = 'ループ: ' + animShit.loop_offsets;
+			offsetIdleText.text = 'アイドル: ' + animShit.idle_offsets;
 		}
 
 		curAnim = 0;
-		animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - W or Sでスクロール';
+		animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - WもしくはSでスクロール';
 
 		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("ダイアログキャラクターエディター | Dialogue Character Editor", "編集中 | Editting: " + character.jsonFile.image);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Dialogue Character Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Dialogue Character Editor";
 	}
 
 	function updateTextBox() {
@@ -586,8 +585,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 				}
 
 				if(moved) {
-					offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
-					offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
+					offsetLoopText.text = 'ループ: ' + animShit.loop_offsets;
+					offsetIdleText.text = 'アイドル: ' + animShit.idle_offsets;
 					ghostLoop.offset.set(animShit.loop_offsets[0], animShit.loop_offsets[1]);
 					ghostIdle.offset.set(animShit.idle_offsets[0], animShit.idle_offsets[1]);
 				}
@@ -647,7 +646,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 					else if(curAnim >= character.jsonFile.animations.length) curAnim = 0;
 					
 					character.playAnim(character.jsonFile.animations[curAnim].anim);
-					animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press W or S to scroll';
+					animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - WもしくはSでスクロール';
 				}
 				lastTab = UI_mainbox.selected_tab_id;
 				currentGhosts = 0;
@@ -672,7 +671,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 							}
 						}
 					}
-					animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press W or S to scroll';
+					animText.text = 'アニメーション: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - WもしくはSでスクロール';
 				}
 			}
 

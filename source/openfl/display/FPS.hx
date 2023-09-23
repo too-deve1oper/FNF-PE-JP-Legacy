@@ -102,7 +102,7 @@ class FPS extends TextField
 			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 
-			text += "\n";
+			text += "PE-JP v" + MainMenuState.psychEngineJPVersion + "\n";
 		}
 
 		cacheCount = currentCount;

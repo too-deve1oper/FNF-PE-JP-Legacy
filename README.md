@@ -1,27 +1,88 @@
-# Friday Night Funkin' - Psych Engine-JP
-日本人フレンドリーなエンジンを。 / It's a Japanese friendly engine.
-Friday Night Funkin'の日本語版、「JPsych Engine」の正式な後継エンジンがここに登場。最高にクールでFunkin'なゲーム。エモい曲、かわいいキャラたち。こんなリズムゲーム、他にない！
-さぁ、ダウンロードして今すぐFunkin'！
-/
-Here comes the Japanese version of Friday Night Funkin', the official successor to the JPsych Engine. The coolest and Funkin' game ever. Emo songs, cute characters. There is no other rhythm game like it!
-Download Funkin' now!
-# 作者について / About Author
-中2一人で作ってます。 / I'm making two middle schoolers alone.
-YouTube: https://www.youtube.com/@Shundesu_/
-Twitter: https://twitter.com/Shun_Yoro_/
-Support Me!: https://www.amazon.jp/hz/wishlist/ls/308JK8MWCQXVR?ref_=wl_share/
-モチベ上がってアプデ内容が豪華になるぞ…!! / You'll be motivated and the contents of the app will be gorgeous...!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Psych Engine-JP - 「Psych Engine」の日本語版エンジン
 
-# 動画内で使用する場合、また、MODで使用する場合 / For use in videos and in mods
-MODで使用する場合は、そのMOD配布ページの何処かにPsych Engineのリンク、このPsych Engine-JPのリンクを貼って下さい。
-動画内で使用する場合には、上記に加えて本家Friday Night Funkin'のリンク(Newgrounds、itch.ioどちらも)も貼って下さい。
-/
-If you use it in a mod, please put a link to Psych Engine and this Psych Engine-JP somewhere on the mod distribution page.
-If you use it in a video, please include a link to the original Friday Night Funkin' (both Newgrounds and itch.io) in addition to the above.
+## Psych Engineって何？
 
-あとMODにする場合は私のDMに一言報告してくださると狂喜乱舞します。
-/
-Also, if you want to make it a mod, please report a word to my DM and I'll go crazy.
+→リズムゲーム「Friday Night Funkin'」の本体を改良したエンジン。
+
+## Friday Night Funkin'ってどんなゲーム？
+
+→昔のリズムゲーム「パラッパラッパー」を彷彿とさせるデザインにリズムゲームユーザーに馴染みやすいUI・プレイスタイルを用いた最高にクールでFunkin'なリズムゲーム。
+
+## Psych Engine-JPとは？
+
+→「Psych Engine」を日本語化・微軽量化し、初心者でもFNF'に馴染みやすくしたエンジン。
+
+前身は「JPsych Engine」。わらびもちぃさんありがとう！！
+
+# 動画やMODで使用するなら
+
+動画やMODの説明欄に本家Friday Night Funkin'のリンク、Psych EngineのリンクそしてこのPsych Engine-JPのリンクを貼って下さい
+あとShundesuに𝕏やらなんやらで一言伝えてくれると嬉しいな、メンションもしていいし
+
+## リンク
+
+[本家FRIDAY NIGHT FUNKIN'](https://www.newgrounds.com/portal/view/770371/)
+
+[Psych Engine-JP Official Site](https://friday-night-funking-jp.jimdofree.com/)
+
+[Psych Engine](https://gamebanana.com/mods/309789/)
+
+[JPsych Engine](https://fnf-jpsych-engine.jimdofree.com/)
+
+## 作者について
+
+ただの中2。変な新人男子VTuberでもあるよ:))
+
+[YouTube](https://youtube.com/@Shun_Yukkuri_/)
+
+[𝕏](https://twitter.com/Shun_Yoro_)
+
+[Misskey.io](https://misskey.io/@Shundesu)
+
+[贈り物(贈れば贈るほどクオリティとモチベーションがアップします)](https://www.amazon.jp/hz/wishlist/ls/308JK8MWCQXVR?ref_=wl_share)
+
+# Psych Engine-JP - Japanese version of "Psych Engine"
+
+## What is Psych Engine?
+
+→An engine that improves on the main body of the rhythm game "Friday Night Funkin'".
+
+## What kind of game is Friday Night Funkin'?
+
+→A cool and Funkin' rhythm game with a design reminiscent of the old rhythm game "Parappa Rappa" and a UI and play style that rhythm game users can easily get used to.
+
+## What is "Psych Engine-JP"?
+
+→Psych Engine-JP is a Japanese-language version of Psych Engine that is slightly lighter in weight, making it easier for beginners to get used to FNF'.
+
+Its predecessor is "JPsych Engine". Thank you, warabi-mt!
+
+# If you want to use it in your videos or mods
+
+Please put the link to Friday Night Funkin', the link to Psych Engine, and the link to Psych Engine-JP in the description of your video or mod.
+Also, please let Shundesu know what you're doing with 𝕏 and stuff, and feel free to menshon me!
+
+## Link
+
+[FRIDAY NIGHT FUNKIN'](https://www.newgrounds.com/portal/view/770371/)
+
+[Psych Engine-JP Official Site](https://friday-night-funking-jp.jimdofree.com/)
+
+[Psych Engine](https://gamebanana.com/mods/309789/)
+
+[JPsych Engine](https://fnf-jpsych-engine.jimdofree.com/)
+
+## About the author
+
+Just a middle schooler. also a weird new male VTuber>:))) lolololololololololoolololoolol
+
+[YouTube](https://youtube.com/@Shun_Yukkuri_/)
+
+[𝕏](https://twitter.com/Shun_Yoro_)
+
+[Misskey.io](https://misskey.io/@Shundesu)
+
+[Gifts (the more you give, the more quality and motivation you will receive lol)](https://www.amazon.jp/hz/wishlist/ls/308JK8MWCQXVR?ref_=wl_share)
 
 # Friday Night Funkin' - Psych Engine
 Engine originally used on [Mind Games Mod](https://gamebanana.com/mods/301107), intended to be a fix for the vanilla version's many issues while keeping the casual play aspect of it. Also aiming to be an easier alternative to newbie coders.
