@@ -2263,7 +2263,7 @@ class PlayState extends MusicBeatState
 	{
 		scoreTxt.text = 'スコア: ' + songScore
 		+ ' | ミス数: ' + songMisses
-		+ ' | 精度: ' + ' ${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]';
+		+ ' | 精度: ' + '${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]';
 
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
@@ -5214,12 +5214,12 @@ class PlayState extends MusicBeatState
 			}
 
 			// Rating FC
-			ratingFC = "";
+			ratingFC = "クリア";
 			if (sicks > 0) ratingFC = "SFC";
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			else if (songMisses >= 10) ratingFC = "クリア";
 		}
 		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce -Ghost
 		setOnLuas('rating', ratingPercent);
