@@ -25,10 +25,10 @@ class FlashingState extends MusicBeatState
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			"そこのあんた、ちょっとストップ!\n
-			このゲームには点滅光が含まれてるぞ!\n
-			Enterキーを押してそれを無効にするか後でオプションに行って無効にするかしてくれ!\n
-			大丈夫な奴はEscキーを押してこのメッセージを二度と見れないようにできるぜ。\n
-			注意されたし!",
+		    　 このゲームには点滅光が含まれてるぞ!\n
+			　　Enterキーを押してそれを無効にするか後でオプションに行って無効にするかしてくれ!\n
+			　　大丈夫な奴はEscキーを押してこのメッセージを二度と見れないようにできるぜ。\n
+			　　注意されたし!",
 			32);
 		warnText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
