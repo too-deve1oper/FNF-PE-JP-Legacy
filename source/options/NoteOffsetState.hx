@@ -442,9 +442,9 @@ class NoteOffsetState extends MusicBeatState
 		{
 			switch(i)
 			{
-				case 0: dumbTexts.members[i].text = 'Rating Offset:';
+				case 0: dumbTexts.members[i].text = '判定の表示位置[X, Y]:';
 				case 1: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[0] + ', ' + ClientPrefs.comboOffset[1] + ']';
-				case 2: dumbTexts.members[i].text = 'Numbers Offset:';
+				case 2: dumbTexts.members[i].text = 'コンボ数の表示位置[X, Y]:';
 				case 3: dumbTexts.members[i].text = '[' + ClientPrefs.comboOffset[2] + ', ' + ClientPrefs.comboOffset[3] + ']';
 			}
 		}
@@ -453,7 +453,7 @@ class NoteOffsetState extends MusicBeatState
 	function updateNoteDelay()
 	{
 		ClientPrefs.noteOffset = Math.round(barPercent);
-		timeTxt.text = 'Current offset: ' + Math.floor(barPercent) + ' ms';
+		timeTxt.text = '現在: ' + Math.floor(barPercent) + ' ミリ秒';
 	}
 
 	function updateMode()
@@ -468,9 +468,9 @@ class NoteOffsetState extends MusicBeatState
 		beatText.visible = !onComboMenu;
 
 		if(onComboMenu)
-			changeModeText.text = '< Combo Offset (Press Accept to Switch) >';
+			changeModeText.text = '< コンボ系 (Acceptに設定したキーで次の設定へ) >';
 		else
-			changeModeText.text = '< Note/Beat Delay (Press Accept to Switch) >';
+			changeModeText.text = '< ノーツ/ビート (Acceptに設定したキーで次の設定へ) >';
 
 		changeModeText.text = changeModeText.text.toUpperCase();
 		FlxG.mouse.visible = onComboMenu;

@@ -46,7 +46,7 @@ class FPS extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Paths.font("vcr.ttf"), 14, color);
+		defaultTextFormat = new TextFormat("_sans", 14, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -102,7 +102,7 @@ class FPS extends TextField
 			text += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 
-			text += "\n";
+			text += "\nPE-JP v" + MainMenuState.psychEngineJPVersion;
 		}
 
 		cacheCount = currentCount;

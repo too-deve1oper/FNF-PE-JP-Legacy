@@ -14,6 +14,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUI9SliceSprite;
@@ -65,8 +66,6 @@ import sys.io.File;
 
 class ChartingState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	public static var noteTypeList:Array<String> = //Used for backwards compatibility with 0.1 - 0.3.2 charts, though, you should add your hardcoded custom note types here too.
 	[
 		'',
@@ -83,22 +82,22 @@ class ChartingState extends MusicBeatState
 	var redos = [];
 	var eventStuff:Array<Dynamic> =
 	[
-		['', "Nothing. Yep, that's right."],
-		['Dadbattle Spotlight', "Used in Dad Battle,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
-		['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
-		['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
-		['Philly Glow', "Exclusive to Week 3\nValue 1: 0/1/2 = OFF/ON/Reset Gradient\n \nNo, i won't add it to other weeks."],
+		['', "Shundesu Ch. チャンネル登録してね"],
+		['Dadbattle Spotlight', "Dad Battleで使われます。,\nValue 1: 0/1 = ON/OFF,\n2 = Target Dad\n3 = Target BF"],
+		['Hey!', "\"Hey!\"アニメーションを再生します。,\nValue 1: BF = Boyfriendのみ, GF = Girlfriendのみ,\nSomething else = 両方\nValue 2: カスタムアニメーションの継続時間,\n何も入力しない場合0.6秒です。"],
+		['Set GF Speed', "GFのアニメーションスピードを設定します。,\nValue 1: 1 = 普通のスピード,\n2 = 2分の1のスピード, 4 = 4分の1のスピード.\nFreshの冒頭で使われます。\n\n警告 値は必ず整数で！"],
+		['Philly Glow', "Week 3で使われます。\nValue 1: 0/1/2 = OFF/ON/リセット グラデーション\n他のWeekにはもう使いません。"],
 		['Kill Henchmen', "For Mom's songs, don't use this please, i love them :("],
-		['Add Camera Zoom', "Used on MILF on that one \"hard\" part\nValue 1: Camera zoom add (Default: 0.015)\nValue 2: UI zoom add (Default: 0.03)\nLeave the values blank if you want to use Default."],
-		['BG Freaks Expression', "Should be used only in \"school\" Stage!"],
-		['Trigger BG Ghouls', "Should be used only in \"schoolEvil\" Stage!"],
-		['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF, GF)"],
-		['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nThe camera won't change the follow point\nafter using this, for getting it back\nto normal, leave both values blank."],
-		['Alt Idle Animation', "Sets a specified suffix after the idle animation name.\nYou can use this to trigger 'idle-alt' if you set\nValue 2 to -alt\n\nValue 1: Character to set (Dad, BF or GF)\nValue 2: New suffix (Leave it blank to disable)"],
-		['Screen Shake', "Value 1: Camera shake\nValue 2: HUD shake\n\nEvery value works as the following example: \"1, 0.05\".\nThe first number (1) is the duration.\nThe second number (0.05) is the intensity."],
-		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
-		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
-		['Set Property', "Value 1: Variable name\nValue 2: New value"]
+		['Add Camera Zoom', "M.I.L.FのHard難易度限定で使われます。\nValue 1: カメラズーム倍率 (デフォルト: 0.015)\nValue 2: UIズーム倍率 (デフォルト: 0.03)\n何も入れない場合デフォルトの値が使用されます。"],
+		['BG Freaks Expression', "schoolステージでしか使われないでしょう！"],
+		['Trigger BG Ghouls', "schoolEvilステージでしか使われないでしょう！"],
+		['Play Animation', "キャラクターに設定されているアニメーションを再生します。,\nアニメーションが終わると、,\nアイドルアニメーションに戻ります。\n\nValue 1: アニメーションの名前.\nValue 2: キャラクター (Dad, BF, GF)"],
+		['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nカメラはフォローポイントを変更しない\nこれを使ってから、それを取り戻すために\n通常値に設定する場合は、両方の値を空白にする。"],
+		['Alt Idle Animation', "アイドルアニメーションの名前の後に、指定したサフィックスを設定する。\n設定すれば、これを使用して「idle-alt」をトリガーすることができる。\nValue 2 -alt\n\nValue 1: 設定する文字 (Dad, BF or GF)\nValue 2: 新しいサフィックス（無効にする場合は空白のままにする）"],
+		['Screen Shake', "Value 1: カメラの揺れ具合\nValue 2: HUDの揺れ具合\n\nどの値も下の例のように機能します。\"1, 0.05\".\n最初の数字(1)は持続時間。2番目の数字(0.05)は強度。"],
+		['Change Character', "Value 1: 変えるキャラクター (Dad, BF, GF)\nValue 2: 新しく出現させるキャラクターの名前"],
+		['Change Scroll Speed', "Value 1: スクロール速度倍率(デフォルトは1)\nValue 2: フルチェンジにかかる時間(秒)。"],
+		['Set Property', "Value 1: 値の名前\nValue 2: 値"]
 	];
 
 	var _file:FileReference;
@@ -242,7 +241,7 @@ class ChartingState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("チャートエディター | Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Chart Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Chart Editor";
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -250,6 +249,12 @@ class ChartingState extends MusicBeatState
 		bg.scrollFactor.set();
 		bg.color = 0xFF222222;
 		add(bg);
+
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0.5;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
 		add(gridLayer);
@@ -332,11 +337,11 @@ class ChartingState extends MusicBeatState
 		add(dummyArrow);
 
 		var tabs = [
-			{name: "Song", label: 'Song'},
-			{name: "Section", label: 'Section'},
-			{name: "Note", label: 'Note'},
-			{name: "Events", label: 'Events'},
-			{name: "Charting", label: 'Charting'},
+			{name: "Song", label: '曲情報'},
+			{name: "Section", label: 'セクション'},
+			{name: "Note", label: 'ノーツ'},
+			{name: "Events", label: 'イベント'},
+			{name: "Charting", label: 'チャート'},
 		];
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
@@ -390,7 +395,7 @@ class ChartingState extends MusicBeatState
 		}
 		lastSong = currentSongName;
 
-		zoomTxt = new FlxText(10, 10, 0, "Zoom: 1 / 1", 16);
+		zoomTxt = new FlxText(10, 10, 0, "ズーム: 1 / 1", 16);
 		zoomTxt.scrollFactor.set();
 		add(zoomTxt);
 
@@ -413,7 +418,7 @@ class ChartingState extends MusicBeatState
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		blockPressWhileTypingOn.push(UI_songTitle);
 
-		var check_voices = new FlxUICheckBox(10, 25, null, null, "Voices.oggを含める", 100);
+		var check_voices = new FlxUICheckBox(10, 25, null, null, "Voicesを含める", 100);
 		check_voices.checked = _song.needsVoices;
 		// _song.needsVoices = check_voices.checked;
 		check_voices.callback = function()
@@ -422,24 +427,24 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
+		var saveButton:FlxButton = new FlxButton(110, 8, "保存", function()
 		{
 			saveLevel();
 		});
 
-		var reloadSong:FlxButton = new FlxButton(saveButton.x + 90, saveButton.y, "songsをリロード", function()
+		var reloadSong:FlxButton = new FlxButton(saveButton.x + 90, saveButton.y, "曲を再読み込み", function()
 		{
 			currentSongName = Paths.formatToSongPath(UI_songTitle.text);
 			loadSong();
 			updateWaveform();
 		});
 
-		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, ".jsonをリロード", function()
+		var reloadSongJson:FlxButton = new FlxButton(reloadSong.x, saveButton.y + 30, "JSONを再読み込み", function()
 		{
-			openSubState(new Prompt('これまでの変更が全て失われます。\n\nこの操作を続行しますか?', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
+			openSubState(new Prompt('このアクションは現在の進捗をクリアします。\n\n続行しますか？', 0, function(){loadJson(_song.song.toLowerCase()); }, null,ignoreWarnings));
 		});
 
-		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Autosaveを読み込み', function()
+		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'オートセーブを読み込み', function()
 		{
 			PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
 			MusicBeatState.resetState();
@@ -463,21 +468,21 @@ class ChartingState extends MusicBeatState
 			}
 		});
 
-		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'Eventsをセーブ', function ()
+		var saveEvents:FlxButton = new FlxButton(110, reloadSongJson.y, 'イベントをセーブ', function ()
 		{
 			saveEvents();
 		});
 
-		var clear_events:FlxButton = new FlxButton(320, 310, 'Eventsを全てクリア', function()
+		var clear_events:FlxButton = new FlxButton(320, 310, 'イベントを全て削除', function()
 			{
-				openSubState(new Prompt('これまでの変更が全て失われます。\n\nこの操作を続行しますか?', 0, clearEvents, null,ignoreWarnings));
+				openSubState(new Prompt('このアクションは現在の進捗をクリアします。\n\n続行しますか？', 0, clearEvents, null,ignoreWarnings));
 			});
 		clear_events.color = FlxColor.RED;
 		clear_events.label.color = FlxColor.WHITE;
 
-		var clear_notes:FlxButton = new FlxButton(320, clear_events.y + 30, 'Clear notes', function()
+		var clear_notes:FlxButton = new FlxButton(320, clear_events.y + 30, 'ノーツを全て削除', function()
 			{
-				openSubState(new Prompt('これまでの変更が全て失われます。\n\nこの操作を続行しますか?', 0, function(){for (sec in 0..._song.notes.length) {
+				openSubState(new Prompt('このアクションは現在の進捗をクリアします。\n\n続行しますか？', 0, function(){for (sec in 0..._song.notes.length) {
 					_song.notes[sec].sectionNotes = [];
 				}
 				updateGrid();
@@ -629,9 +634,9 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(noteSkinInputText);
 		tab_group_song.add(noteSplashesInputText);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'BPM:'));
-		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Offset:'));
-		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, '譜面の速さ:'));
-		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent(敵):'));
+		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'オフセット:'));
+		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, '譜面の速度:'));
+		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, '敵:'));
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'ステージ:'));
@@ -662,16 +667,16 @@ class ChartingState extends MusicBeatState
 		var tab_group_section = new FlxUI(null, UI_box);
 		tab_group_section.name = 'Section';
 
-		check_mustHitSection = new FlxUICheckBox(10, 15, null, null, "BFチェンジ", 100);
+		check_mustHitSection = new FlxUICheckBox(10, 15, null, null, "BFが歌う", 100);
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = _song.notes[curSec].mustHitSection;
 
-		check_gfSection = new FlxUICheckBox(10, check_mustHitSection.y + 22, null, null, "GFを操作する", 100);
+		check_gfSection = new FlxUICheckBox(10, check_mustHitSection.y + 22, null, null, "GFが歌う", 100);
 		check_gfSection.name = 'check_gf';
 		check_gfSection.checked = _song.notes[curSec].gfSection;
 		// _song.needsVoices = check_mustHit.checked;
 
-		check_altAnim = new FlxUICheckBox(check_gfSection.x + 120, check_gfSection.y, null, null, "アニメーションなし", 100);
+		check_altAnim = new FlxUICheckBox(check_gfSection.x + 120, check_gfSection.y, null, null, "Altアニメーション", 100);
 		check_altAnim.checked = _song.notes[curSec].altAnim;
 
 		stepperBeats = new FlxUINumericStepper(10, 100, 1, 4, 1, 6, 2);
@@ -795,10 +800,10 @@ class ChartingState extends MusicBeatState
 		
 		check_notesSec = new FlxUICheckBox(10, clearSectionButton.y + 25, null, null, "ノーツ", 100);
 		check_notesSec.checked = true;
-		check_eventsSec = new FlxUICheckBox(check_notesSec.x + 100, check_notesSec.y, null, null, "Events", 100);
+		check_eventsSec = new FlxUICheckBox(check_notesSec.x + 100, check_notesSec.y, null, null, "イベント", 100);
 		check_eventsSec.checked = true;
 
-		var swapSection:FlxButton = new FlxButton(10, check_notesSec.y + 40, "セクションを入れ替え", function()
+		var swapSection:FlxButton = new FlxButton(10, check_notesSec.y + 40, "BFと敵のノーツを入れ替える", function()
 		{
 			for (i in 0..._song.notes[curSec].sectionNotes.length)
 			{
@@ -851,7 +856,7 @@ class ChartingState extends MusicBeatState
 		stepperCopy = new FlxUINumericStepper(copyLastButton.x + 100, copyLastButton.y, 1, 1, -999, 999, 0);
 		blockPressWhileTypingOnStepper.push(stepperCopy);
 
-		var duetButton:FlxButton = new FlxButton(10, copyLastButton.y + 45, "デュエットノーツ", function()
+		var duetButton:FlxButton = new FlxButton(10, copyLastButton.y + 45, "同時に歌わせる", function()
 		{
 			var duetNotes:Array<Array<Dynamic>> = [];
 			for (note in _song.notes[curSec].sectionNotes)
@@ -874,7 +879,7 @@ class ChartingState extends MusicBeatState
 
 			updateGrid();
 		});
-		var mirrorButton:FlxButton = new FlxButton(duetButton.x + 100, duetButton.y, "敵とBFのノーツが鏡写しになる", function()
+		var mirrorButton:FlxButton = new FlxButton(duetButton.x + 100, duetButton.y, "鏡写しノーツ", function()
 		{
 			var duetNotes:Array<Array<Dynamic>> = [];
 			for (note in _song.notes[curSec].sectionNotes)
@@ -896,7 +901,7 @@ class ChartingState extends MusicBeatState
 			updateGrid();
 		});
 
-		tab_group_section.add(new FlxText(stepperBeats.x, stepperBeats.y - 15, 0, '1セクションごとの拍数:'));
+		tab_group_section.add(new FlxText(stepperBeats.x, stepperBeats.y - 15, 0, 'セクションごとのビート数:'));
 		tab_group_section.add(stepperBeats);
 		tab_group_section.add(stepperSectionBPM);
 		tab_group_section.add(check_mustHitSection);
@@ -989,7 +994,7 @@ class ChartingState extends MusicBeatState
 		blockPressWhileScrolling.push(noteTypeDropDown);
 
 		tab_group_note.add(new FlxText(10, 10, 0, '伸ばす長さ:'));
-		tab_group_note.add(new FlxText(10, 50, 0, '伸ばす長さ(ms単位):'));
+		tab_group_note.add(new FlxText(10, 50, 0, '伸ばす時間(ミリ秒単位):'));
 		tab_group_note.add(new FlxText(10, 90, 0, 'ノーツタイプ:'));
 		tab_group_note.add(stepperSusLength);
 		tab_group_note.add(strumTimeInputText);
@@ -1043,7 +1048,7 @@ class ChartingState extends MusicBeatState
 			leEvents.push(eventStuff[i][0]);
 		}
 
-		var text:FlxText = new FlxText(20, 30, 0, "Event:");
+		var text:FlxText = new FlxText(20, 30, 0, "イベント:");
 		tab_group_event.add(text);
 		eventDropDown = new FlxUIDropDownMenuCustom(20, 50, FlxUIDropDownMenuCustom.makeStrIdLabelArray(leEvents, true), function(pressed:String) {
 			var selectedEvent:Int = Std.parseInt(pressed);
@@ -1139,7 +1144,7 @@ class ChartingState extends MusicBeatState
 		setAllLabelsOffset(moveRightButton, -30, 0);
 		tab_group_event.add(moveRightButton);
 
-		selectedEventText = new FlxText(addButton.x - 100, addButton.y + addButton.height + 6, (moveRightButton.x - addButton.x) + 186, 'Selected Event: None');
+		selectedEventText = new FlxText(addButton.x - 100, addButton.y + addButton.height + 6, (moveRightButton.x - addButton.x) + 186, '選択中のイベント: 無し');
 		selectedEventText.alignment = CENTER;
 		tab_group_event.add(selectedEventText);
 
@@ -1158,12 +1163,12 @@ class ChartingState extends MusicBeatState
 			curEventSelected += change;
 			if(curEventSelected < 0) curEventSelected = Std.int(curSelectedNote[1].length) - 1;
 			else if(curEventSelected >= curSelectedNote[1].length) curEventSelected = 0;
-			selectedEventText.text = '選択中のEvent: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
+			selectedEventText.text = '選択中のイベント: ' + (curEventSelected + 1) + ' / ' + curSelectedNote[1].length;
 		}
 		else
 		{
 			curEventSelected = 0;
-			selectedEventText.text = '選択中のEvent: -';
+			selectedEventText.text = '選択中のイベント: -';
 		}
 		updateNoteUI();
 	}
@@ -1195,7 +1200,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.save.data.chart_waveformInst == null) FlxG.save.data.chart_waveformInst = false;
 		if (FlxG.save.data.chart_waveformVoices == null) FlxG.save.data.chart_waveformVoices = false;
 
-		waveformUseInstrumental = new FlxUICheckBox(10, 90, null, null, "Inst.oggの音声波形表示", 100);
+		waveformUseInstrumental = new FlxUICheckBox(10, 90, null, null, "Instの音声波形表示", 100);
 		waveformUseInstrumental.checked = FlxG.save.data.chart_waveformInst;
 		waveformUseInstrumental.callback = function()
 		{
@@ -1205,7 +1210,7 @@ class ChartingState extends MusicBeatState
 			updateWaveform();
 		};
 
-		waveformUseVoices = new FlxUICheckBox(waveformUseInstrumental.x + 120, waveformUseInstrumental.y, null, null, "Voices.oggの音声波形表示", 100);
+		waveformUseVoices = new FlxUICheckBox(waveformUseInstrumental.x + 120, waveformUseInstrumental.y, null, null, "Voicesの音声波形表示", 100);
 		waveformUseVoices.checked = FlxG.save.data.chart_waveformVoices;
 		waveformUseVoices.callback = function()
 		{
@@ -1216,7 +1221,7 @@ class ChartingState extends MusicBeatState
 		};
 		#end
 
-		check_mute_inst = new FlxUICheckBox(10, 310, null, null, "Inst.oggを消音(Editor内でのみ)", 100);
+		check_mute_inst = new FlxUICheckBox(10, 310, null, null, "Instをミュート(エディター内のみ)", 100);
 		check_mute_inst.checked = false;
 		check_mute_inst.callback = function()
 		{
@@ -1237,7 +1242,7 @@ class ChartingState extends MusicBeatState
 			mouseQuant = FlxG.save.data.mouseScrollingQuant;
 		};
 
-		check_vortex = new FlxUICheckBox(10, 160, null, null, "Vortex Editor (BETA)(判定表示)", 100);
+		check_vortex = new FlxUICheckBox(10, 160, null, null, "Vortex Editor (試験中)", 100);
 		if (FlxG.save.data.chart_vortex == null) FlxG.save.data.chart_vortex = false;
 		check_vortex.checked = FlxG.save.data.chart_vortex;
 
@@ -1248,7 +1253,7 @@ class ChartingState extends MusicBeatState
 			reloadGridLayer();
 		};
 
-		check_warnings = new FlxUICheckBox(10, 120, null, null, "進行状況に関する警告を無視", 100);
+		check_warnings = new FlxUICheckBox(10, 120, null, null, "進行状況に関する警告を無効にする", 100);
 		if (FlxG.save.data.ignoreWarnings == null) FlxG.save.data.ignoreWarnings = false;
 		check_warnings.checked = FlxG.save.data.ignoreWarnings;
 
@@ -1258,7 +1263,7 @@ class ChartingState extends MusicBeatState
 			ignoreWarnings = FlxG.save.data.ignoreWarnings;
 		};
 
-		var check_mute_vocals = new FlxUICheckBox(check_mute_inst.x + 120, check_mute_inst.y, null, null, "Voices.oggをミュート(Editor内でのみ)", 100);
+		var check_mute_vocals = new FlxUICheckBox(check_mute_inst.x + 120, check_mute_inst.y, null, null, "Voicesをミュート(エディター内のみ)", 100);
 		check_mute_vocals.checked = false;
 		check_mute_vocals.callback = function()
 		{
@@ -1272,7 +1277,7 @@ class ChartingState extends MusicBeatState
 			}
 		};
 
-		playSoundBf = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'サウンド再生 (BFのノーツ)', 100,
+		playSoundBf = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'BFのノーツでサウンドを再生', 100,
 			function() {
 				FlxG.save.data.chart_playSoundBf = playSoundBf.checked;
 			}
@@ -1280,7 +1285,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.save.data.chart_playSoundBf == null) FlxG.save.data.chart_playSoundBf = false;
 		playSoundBf.checked = FlxG.save.data.chart_playSoundBf;
 
-		playSoundDad = new FlxUICheckBox(check_mute_inst.x + 120, playSoundBf.y, null, null, 'サウンド再生 (敵(Opp)のノーツ)', 100,
+		playSoundDad = new FlxUICheckBox(check_mute_inst.x + 120, playSoundBf.y, null, null, '敵のノーツでサウンドを再生', 100,
 			function() {
 				FlxG.save.data.chart_playSoundDad = playSoundDad.checked;
 			}
@@ -1288,7 +1293,7 @@ class ChartingState extends MusicBeatState
 		if (FlxG.save.data.chart_playSoundDad == null) FlxG.save.data.chart_playSoundDad = false;
 		playSoundDad.checked = FlxG.save.data.chart_playSoundDad;
 
-		metronome = new FlxUICheckBox(10, 15, null, null, "メトロノームを有効", 100,
+		metronome = new FlxUICheckBox(10, 15, null, null, "メトロノーム", 100,
 			function() {
 				FlxG.save.data.chart_metronome = metronome.checked;
 			}
@@ -1301,7 +1306,7 @@ class ChartingState extends MusicBeatState
 		blockPressWhileTypingOnStepper.push(metronomeStepper);
 		blockPressWhileTypingOnStepper.push(metronomeOffsetStepper);
 
-		disableAutoScrolling = new FlxUICheckBox(metronome.x + 120, metronome.y, null, null, "自動スクロール無効 (おすすめしません)", 120,
+		disableAutoScrolling = new FlxUICheckBox(metronome.x + 120, metronome.y, null, null, "AutoScrollを無効にする(推奨しません)", 120,
 			function() {
 				FlxG.save.data.chart_noAutoScroll = disableAutoScrolling.checked;
 			}
@@ -1321,14 +1326,14 @@ class ChartingState extends MusicBeatState
 		
 		#if !html5
 		sliderRate = new FlxUISlider(this, 'playbackSpeed', 120, 120, 0.5, 3, 150, null, 5, FlxColor.WHITE, FlxColor.BLACK);
-		sliderRate.nameLabel.text = 'Playback Rate';
+		sliderRate.nameLabel.text = '再生速度';
 		tab_group_chart.add(sliderRate);
 		#end
 
 		tab_group_chart.add(new FlxText(metronomeStepper.x, metronomeStepper.y - 15, 0, 'BPM:'));
-		tab_group_chart.add(new FlxText(metronomeOffsetStepper.x, metronomeOffsetStepper.y - 15, 0, 'Offset (ms):'));
-		tab_group_chart.add(new FlxText(instVolume.x, instVolume.y - 15, 0, 'Inst.oggの音量'));
-		tab_group_chart.add(new FlxText(voicesVolume.x, voicesVolume.y - 15, 0, 'Voices.oggの音量'));
+		tab_group_chart.add(new FlxText(metronomeOffsetStepper.x, metronomeOffsetStepper.y - 15, 0, 'オフセット(ミリ秒単位):'));
+		tab_group_chart.add(new FlxText(instVolume.x, instVolume.y - 15, 0, 'Instの音量'));
+		tab_group_chart.add(new FlxText(voicesVolume.x, voicesVolume.y - 15, 0, 'Voicesの音量'));
 		tab_group_chart.add(metronome);
 		tab_group_chart.add(disableAutoScrolling);
 		tab_group_chart.add(metronomeStepper);
@@ -1410,22 +1415,22 @@ class ChartingState extends MusicBeatState
 			var label = check.getLabel().text;
 			switch (label)
 			{
-				case 'Must hit section':
+				case 'BFが歌う':
 					_song.notes[curSec].mustHitSection = check.checked;
 
 					updateGrid();
 					updateHeads();
 
-				case 'GF section':
+				case 'GFが歌う':
 					_song.notes[curSec].gfSection = check.checked;
 
 					updateGrid();
 					updateHeads();
 
-				case 'Change BPM':
+				case 'BPMを変更':
 					_song.notes[curSec].changeBPM = check.checked;
 					FlxG.log.add('changed bpm shit');
-				case "Alt Animation":
+				case "Altアニメーション":
 					_song.notes[curSec].altAnim = check.checked;
 			}
 		}
@@ -2001,10 +2006,10 @@ class ChartingState extends MusicBeatState
 
 		bpmTxt.text =
 		Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) +
-		"\nSection: " + curSec +
-		"\n\nBeat: " + Std.string(curDecBeat).substring(0,4) +
-		"\n\nStep: " + curStep +
-		"\n\nBeat Snap: " + quantization + "th";
+		"\nセクション: " + curSec +
+		"\n\nビート: " + Std.string(curDecBeat).substring(0,4) +
+		"\n\nステップ: " + curStep +
+		"\n\nビートステップ: " + quantization + "th";
 
 		var playedSound:Array<Bool> = [false, false, false, false]; //Prevents ouchy GF sex sounds
 		curRenderedNotes.forEachAlive(function(note:Note) {
@@ -2067,7 +2072,7 @@ class ChartingState extends MusicBeatState
 		var daZoom:Float = zoomList[curZoom];
 		var zoomThing:String = '1 / ' + daZoom;
 		if(daZoom < 1) zoomThing = Math.round(1 / daZoom) + ' / 1';
-		zoomTxt.text = 'Zoom: ' + zoomThing;
+		zoomTxt.text = 'ズーム: ' + zoomThing;
 		reloadGridLayer();
 	}
 
@@ -2625,8 +2630,8 @@ class ChartingState extends MusicBeatState
 				var note:Note = setupNoteData(i, false);
 				curRenderedNotes.add(note);
 
-				var text:String = 'Event: ' + note.eventName + ' (' + Math.floor(note.strumTime) + ' ms)' + '\nValue 1: ' + note.eventVal1 + '\nValue 2: ' + note.eventVal2;
-				if(note.eventLength > 1) text = note.eventLength + ' Events:\n' + note.eventName;
+				var text:String = 'イベント: ' + note.eventName + ' (' + Math.floor(note.strumTime) + ' ミリ秒)' + '\nValue 1: ' + note.eventVal1 + '\nValue 2: ' + note.eventVal2;
+				if(note.eventLength > 1) text = note.eventLength + ' イベント:\n' + note.eventName;
 
 				var daText:AttachedFlxText = new AttachedFlxText(0, 0, 400, text, 12);
 				daText.setFormat(Paths.font("vcr.ttf"), 12, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);

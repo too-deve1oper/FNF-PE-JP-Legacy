@@ -81,11 +81,10 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
+	#if StandardUI
 	public static var ratingStuff:Array<Dynamic> = [
 		['Blueballed', 0.2], //From 0% to 19%
 		['Shit!', 0.4], //From 20% to 39%
@@ -98,6 +97,7 @@ class PlayState extends MusicBeatState
 		['Sick!!', 1], //From 90% to 99%
 		['Perfect!!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
+	#end
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -331,6 +331,9 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - " + SONG.song;
+
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -1019,7 +1022,7 @@ class PlayState extends MusicBeatState
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.setFormat(Paths.font("VCR OSD Mono.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
@@ -1144,7 +1147,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
-		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		botplayTxt.setFormat(Paths.font("VCR OSD Mono.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
@@ -1319,7 +1322,6 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 
 		if(!ClientPrefs.controllerMode)
 		{
@@ -2260,9 +2262,9 @@ class PlayState extends MusicBeatState
 	public function updateScore(miss:Bool = false)
 	{
 		scoreTxt.text = 'スコア: ' + songScore
-		+ ' | ミス: ' + songMisses
-		+ ' | 評価: ' + ratingName
-		+ (ratingName != '0%' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) | ランク: $ratingFC' : '');
+		+ ' | ミス数: ' + songMisses
+		+ ' | 精度: ' + '${Highscore.floorDecimal(ratingPercent * 100, 2)}% [$ratingFC]';
+
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
@@ -2357,7 +2359,6 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
 	}
@@ -2792,8 +2793,6 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		}
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
-
 		super.onFocusLost();
 	}
 
@@ -3300,7 +3299,6 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "]";
 	}
 
 	function openChartEditor()
@@ -3314,7 +3312,7 @@ class PlayState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("チャートエディター | Chart Editor", null, null, true);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Chart Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Chart Editor";
 	}
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
@@ -3347,7 +3345,6 @@ class PlayState extends MusicBeatState
 				// Game Over doesn't get his own variable because it's only used here
 				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
-				Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - " + SONG.song + " [" + storyDifficultyText + "] - GAMEOVER";
 				isDead = true;
 				return true;
 			}
@@ -5187,7 +5184,7 @@ class PlayState extends MusicBeatState
 
 		var ret:Dynamic = callOnLuas('onRecalculateRating', [], false);
 		if(ret != FunkinLua.Function_Stop)
-		{
+			{
 			if(totalPlayed < 1) //Prevent divide by 0
 				ratingName = '?';
 			else
@@ -5196,6 +5193,7 @@ class PlayState extends MusicBeatState
 				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
+				#if StandardUI
 				// Rating Name
 				if(ratingPercent >= 1)
 				{
@@ -5212,15 +5210,16 @@ class PlayState extends MusicBeatState
 						}
 					}
 				}
+				#end
 			}
 
 			// Rating FC
-			ratingFC = "";
+			ratingFC = "クリア";
 			if (sicks > 0) ratingFC = "SFC";
 			if (goods > 0) ratingFC = "GFC";
 			if (bads > 0 || shits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+			else if (songMisses >= 10) ratingFC = "クリア";
 		}
 		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce -Ghost
 		setOnLuas('rating', ratingPercent);

@@ -6,12 +6,15 @@ import Discord.DiscordClient;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.system.FlxSound;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
@@ -21,8 +24,6 @@ using StringTools;
 
 class MasterEditorMenu extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	var options:Array<String> = [
 		'Week Editor',
 		'Menu Character Editor',
@@ -45,13 +46,19 @@ class MasterEditorMenu extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("エディターセレクト | Editors Main Menu", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Editors Main Menu";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Editors Main Menu";
 
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.scrollFactor.set();
 		bg.color = 0xFF353535;
 		add(bg);
+
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 
 		grpTexts = new FlxTypedGroup<Alphabet>();
 		add(grpTexts);
@@ -182,11 +189,11 @@ class MasterEditorMenu extends MusicBeatState
 	
 		WeekData.setDirectoryFromWeek();
 		if(directories[curDirectory] == null || directories[curDirectory].length < 1)
-			directoryTxt.text = '< No Mod Directory Loaded >';
+			directoryTxt.text = 'ロードされているMOD: < なし >';
 		else
 		{
 			Paths.currentModDirectory = directories[curDirectory];
-			directoryTxt.text = '< Loaded Mod Directory: ' + Paths.currentModDirectory + ' >';
+			directoryTxt.text = 'ロードされているMOD: < ' + Paths.currentModDirectory + ' >';
 		}
 		directoryTxt.text = directoryTxt.text.toUpperCase();
 	}

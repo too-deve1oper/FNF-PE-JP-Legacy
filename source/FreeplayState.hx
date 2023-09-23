@@ -8,11 +8,13 @@ import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import lime.utils.Assets;
 import flixel.sound.FlxSound;
@@ -27,8 +29,6 @@ using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	var songs:Array<SongMetadata> = [];
 
 	var selector:FlxText;
@@ -66,7 +66,7 @@ class FreeplayState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("FREEPLAY", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - FREEPLAY";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - FREEPLAY";
 
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
@@ -191,10 +191,10 @@ class FreeplayState extends MusicBeatState
 		add(textBG);
 
 		#if PRELOAD_ALL
-		var leText:String = "Spaceで曲を聴けます。 / CtrlでGAMEPLAY設定 / Resetに設定したキーでスコアなどを削除できます。";
+		var leText:String = "Spaceで曲を聴けます。 / Ctrlでゲームプレイに関する設定ができます。 / RESETに設定したキーでベストスコアを削除できます。";
 		var size:Int = 16;
 		#else
-		var leText:String = "CtrlでGAMEPLAY設定 / Resetに設定したキーでスコアなどを削除できます。";
+		var leText:String = "Ctrlでゲームプレイに関する設定ができます。 / RESETに設定したキーでベストスコアを削除できます。";
 		var size:Int = 18;
 		#end
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
@@ -263,7 +263,7 @@ class FreeplayState extends MusicBeatState
 			ratingSplit[1] += '0';
 		}
 
-		scoreText.text = 'ベストスコア: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
+		scoreText.text = 'ベストスコア: ' + lerpScore + ' | 精度: ' + ratingSplit.join('.') + '%';
 		positionHighscore();
 
 		var upP = controls.UI_UP_P;
@@ -425,7 +425,10 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		PlayState.storyDifficulty = curDifficulty;
-		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+		if (CoolUtil.difficulties.length > 1)
+			diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+		else
+			diffText.text = CoolUtil.difficultyString();
 		positionHighscore();
 	}
 
@@ -527,7 +530,7 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = newPos;
 		}
 
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - FREEPLAY - Selecting to: " + songs[curSelected].songName;
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - FREEPLAY - Selecting to: " + songs[curSelected].songName;
 	}
 
 	private function positionHighscore() {

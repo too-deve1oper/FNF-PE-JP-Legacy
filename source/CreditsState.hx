@@ -7,6 +7,7 @@ import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -24,8 +25,6 @@ using StringTools;
 
 class CreditsState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	var curSelected:Int = -1;
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -46,12 +45,18 @@ class CreditsState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("クレジット | In the Menus", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Credits";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Credits";
 
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		add(bg);
 		bg.screenCenter();
+
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x388E8E8E, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 		
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -85,13 +90,14 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-			['Psych Engine-JP Developer'],
-			['Shundesu',            'shundesu',         'Developer/Translator',                                         'https://twitter.com/Shun_Yoro_',       '444444'],
+			['Psych Engine-JP Dev'],
+			['Shundesu',		    'shundesu',		    '開発リーダー',								                     'https://twitter.com/Shun_Yoro_',	     'FFD700'],
+			['Shundesu Server',     'official',         'Too Japanese',                                                 'https://discord.gg/Xt8A8d28BE',        '1E90FF'],
 			[''],
-			['JPsych Engine Team'],
-            ['Warabimochi',         'warabi',           'JPsych Engine制作者',                                           'https://twitter.com/warabi_mt17',     'F4A460'],
-            ['KuroGamiZERO',        'KRGMZERO',         '制作協力者',                                                    'https://kurokamizero.jimdofree.com/',  '555555'],
-			['Psych Engine Team'],
+			['JPsych Engine Dev'],
+			['warabi-mt',		    'warabi',		    'JPsych Engine Leader',								            'https://twitter.com/warabi-mt17',	     'F4A460'],
+			['JPsych Dev Team',		'jpsych',			'JPsych Engine Team',							                'https://fnf-jpsych-engine.jimdofree.com/','DB7093'],
+			[''],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
 			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						'https://twitter.com/yoshubs',			'5E99DF'],

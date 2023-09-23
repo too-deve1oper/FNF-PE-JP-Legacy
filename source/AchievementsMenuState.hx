@@ -7,11 +7,14 @@ import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxSubState;
 import Achievements;
 import openfl.Lib;
@@ -20,8 +23,6 @@ using StringTools;
 
 class AchievementsMenuState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	#if ACHIEVEMENTS_ALLOWED
 	var options:Array<String> = [];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -34,7 +35,7 @@ class AchievementsMenuState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("実績 | Achievements Menu", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Achivements";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Achivements";
 
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
@@ -42,6 +43,12 @@ class AchievementsMenuState extends MusicBeatState
 		menuBG.screenCenter();
 		menuBG.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuBG);
+
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);

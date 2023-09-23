@@ -35,8 +35,6 @@ using StringTools;
 
 class MenuCharacterEditorState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-	 
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;
 	var characterFile:MenuCharacterFile = null;
 	var txtOffsets:FlxText;
@@ -55,7 +53,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("メニューキャラクターエディター | Menu Character Editor", "編集中 | Editting: " + characterFile.image);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Menu Character Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Menu Character Editor";
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 		for (char in 0...3)
@@ -70,13 +68,13 @@ class MenuCharacterEditorState extends MusicBeatState
 		add(grpWeekCharacters);
 
 		txtOffsets = new FlxText(20, 10, 0, "[0, 0]", 32);
-		txtOffsets.setFormat("07ロゴたいぷゴシック7", 32, FlxColor.WHITE, CENTER);
+		txtOffsets.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, CENTER);
 		txtOffsets.alpha = 0.7;
 		add(txtOffsets);
 
 		var tipText:FlxText = new FlxText(0, 540, FlxG.width,
-			"矢印キー - オフセットを変更(Shiftを押しながらすると10倍)
-			\nSpace - 再生 \"Start Press\" アニメーション(Boyfriend キャラクター タイプ)", 16);
+			"矢印キー - オフセットの変更(Shiftを押しながらすると10倍)
+			\nSpace - Start Pressアニメーションを再生 (Boyfriend Character Type)", 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER);
 		tipText.scrollFactor.set();
 		add(tipText);
@@ -114,14 +112,14 @@ class MenuCharacterEditorState extends MusicBeatState
 		addCharacterUI();
 		add(UI_mainbox);
 
-		var loadButton:FlxButton = new FlxButton(0, 480, "キャラクターロード", function() {
+		var loadButton:FlxButton = new FlxButton(0, 480, "キャラを読み込み", function() {
 			loadCharacter();
 		});
 		loadButton.screenCenter(X);
 		loadButton.x -= 60;
 		add(loadButton);
 	
-		var saveButton:FlxButton = new FlxButton(0, 480, "キャラクターセーブ", function() {
+		var saveButton:FlxButton = new FlxButton(0, 480, "キャラを保存", function() {
 			saveCharacter();
 		});
 		saveButton.screenCenter(X);
@@ -180,22 +178,22 @@ class MenuCharacterEditorState extends MusicBeatState
 		confirmInputText = new FlxUIInputText(10, idleInputText.y + 35, 100, characterFile.confirm_anim, 8);
 		blockPressWhileTypingOn.push(confirmInputText);
 
-		flipXCheckbox = new FlxUICheckBox(10, confirmInputText.y + 30, null, null, "フリップ X", 100);
+		flipXCheckbox = new FlxUICheckBox(10, confirmInputText.y + 30, null, null, "左右反転", 100);
 		flipXCheckbox.callback = function()
 		{
 			grpWeekCharacters.members[curTypeSelected].flipX = flipXCheckbox.checked;
 			characterFile.flipX = flipXCheckbox.checked;
 		};
 
-		var reloadImageButton:FlxButton = new FlxButton(140, confirmInputText.y + 30, "再読み込み", function() {
+		var reloadImageButton:FlxButton = new FlxButton(140, confirmInputText.y + 30, "キャラを再読み込み", function() {
 			reloadSelectedCharacter();
 		});
 		
 		scaleStepper = new FlxUINumericStepper(140, imageInputText.y, 0.05, 1, 0.1, 30, 2);
 
-		var confirmDescText = new FlxText(10, confirmInputText.y - 18, 0, '再生するアニメーションの.xml名:');
-		tab_group.add(new FlxText(10, imageInputText.y - 18, 0, 'イメージファイル名:'));
-		tab_group.add(new FlxText(10, idleInputText.y - 18, 0, 'Idleアニメーション時の.xml名:'));
+		var confirmDescText = new FlxText(10, confirmInputText.y - 18, 0, '.XML上でのWeek決定アニメーション名:');
+		tab_group.add(new FlxText(10, imageInputText.y - 18, 0, 'スプライトファイル名:'));
+		tab_group.add(new FlxText(10, idleInputText.y - 18, 0, '.XML上でのアイドルアニメーション名:'));
 		tab_group.add(new FlxText(scaleStepper.x, scaleStepper.y - 18, 0, '大きさ:'));
 		tab_group.add(flipXCheckbox);
 		tab_group.add(reloadImageButton);
@@ -252,7 +250,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("メニューキャラクターエディター | Menu Character Editor", "編集中 | Editting: " + characterFile.image);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Menu Character Editor";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Menu Character Editor";
 	}
 
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {

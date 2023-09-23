@@ -24,8 +24,6 @@ using StringTools;
 
 class StoryMenuState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	public static var weekCompleted:Map<String, Bool> = new Map<String, Bool>();
 
 	var scoreText:FlxText;
@@ -62,16 +60,16 @@ class StoryMenuState extends MusicBeatState
 		if(curWeek >= WeekData.weeksList.length) curWeek = 0;
 		persistentUpdate = persistentDraw = true;
 
-		scoreText = new FlxText(10, 10, 0, "スコア: 49324858", 36);
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32);
+		scoreText = new FlxText(10, 10, 0, "WEEK SCORE: 49324858", 36);
+		scoreText.setFormat(Paths.font("VCR OSD Mono.ttf"), 32);
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
-		txtWeekTitle.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		txtWeekTitle.setFormat(Paths.font("VCR OSD Mono.ttf"), 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
 
 		var rankText:FlxText = new FlxText(0, 10);
-		rankText.text = 'ランク: GREAT';
-		rankText.setFormat(Paths.font("vcr.ttf"), 32);
+		rankText.text = 'RANK: GREAT';
+		rankText.setFormat(Paths.font("VCR OSD Mono.ttf"), 32);
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
@@ -95,7 +93,7 @@ class StoryMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("ストーリーモード | In the Menus", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Story Mode";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Story Mode";
 
 		var num:Int = 0;
 		for (i in 0...WeekData.weeksList.length)
@@ -200,11 +198,11 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32);
+		scoreText.setFormat(Paths.font("VCR OSD Mono.ttf"), 32);
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 30, 0, 1)));
 		if(Math.abs(intendedScore - lerpScore) < 10) lerpScore = intendedScore;
 
-		scoreText.text = "WEEKスコア:" + lerpScore;
+		scoreText.text = "WEEK SCORE:" + lerpScore;
 
 		// FlxG.watch.addQuick('font', scoreText.font);
 

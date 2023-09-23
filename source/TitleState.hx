@@ -52,8 +52,6 @@ typedef TitleData =
 }
 class TitleState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
@@ -135,7 +133,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/ShadowMario/FNF-PsychEngine/main/gitVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/Shun-Yukkuri/FNF-PE-JP-Legacy/main/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
@@ -252,7 +250,7 @@ class TitleState extends MusicBeatState
 			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 			}
-			Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Do you like this game?";
+			Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Have a nice Funkin' life!";
 		}
 
 		Conductor.changeBPM(titleJSON.bpm);
@@ -625,22 +623,13 @@ class TitleState extends MusicBeatState
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
 				case 2:
 					#if PSYCH_WATERMARKS
-					createCoolText(['Psych Engine by'], 15);
+					createCoolText(["The Funkin' Crew Inc."], 0);
 					#else
 					createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
 					#end
 				// credTextShit.visible = true;
 				case 4:
-					#if PSYCH_WATERMARKS
-					addMoreText('Shadow Mario', 15);
-					addMoreText('RiverOaken', 15);
-					addMoreText('shubs', 15);
-					addMoreText(' ', 15);
-					addMoreText('Psych Engine-JP by', 15);
-					addMoreText('Shundesu', 15);
-					#else
 					addMoreText('present');
-					#end
 				// credTextShit.text += '\npresent...';
 				// credTextShit.addText();
 				case 5:
@@ -649,11 +638,7 @@ class TitleState extends MusicBeatState
 				// credTextShit.text = 'In association \nwith';
 				// credTextShit.screenCenter();
 				case 6:
-					#if PSYCH_WATERMARKS
-					createCoolText(['Not associated', 'with'], -40);
-					#else
 					createCoolText(['In association', 'with'], -40);
-					#end
 				case 8:
 					addMoreText('newgrounds', -40);
 					ngSpr.visible = true;
@@ -683,7 +668,7 @@ class TitleState extends MusicBeatState
 					addMoreText('Night');
 				// credTextShit.text += '\nNight';
 				case 16:
-					addMoreText("Funkin'"); // credTextShit.text += '\nFunkin';
+					addMoreText("Funkin"); // credTextShit.text += '\nFunkin';
 
 				case 17:
 					skipIntro();

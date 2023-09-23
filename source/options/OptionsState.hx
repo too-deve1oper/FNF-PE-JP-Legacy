@@ -7,6 +7,7 @@ import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -30,8 +31,6 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	public static var psychEngineJPVersion:String = '0.6.3-3.2.0';
-
 	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
@@ -61,7 +60,7 @@ class OptionsState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("オプション設定 | Options Menu", null);
 		#end
-		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + psychEngineJPVersion + " - Options";
+		Lib.application.window.title = "Friday Night Funkin': Psych Engine-JP v" + MainMenuState.psychEngineJPVersion + " - Change Settings";
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
@@ -70,6 +69,12 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
+
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
